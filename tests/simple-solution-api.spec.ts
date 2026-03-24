@@ -3,10 +3,10 @@ import { expect, test } from '@playwright/test'
 import { StatusCodes } from 'http-status-codes'
 //--------------------------------------------CONSTANTS---------------------------------------------
 const apiHeaders = {
-  api_key: '1234567890123456'
+  api_key: '1234567890123456',
 }
 const incorrectApiKey = {
-  api_key: '123456789009876'
+  api_key: '123456789009876',
 }
 const requestBody = {
   status: 'OPEN',
@@ -47,11 +47,11 @@ test('get deleted order should receive code 404', async ({ request }) => {
   const statusCode = response.status()
   // Log the response status, body and headers
   console.log('response body:', responseBody)
-  expect(statusCode).toBe(404)
+  expect.soft(statusCode).toBe(404)
 })
 test('delete order should receive code 204', async ({ request }) => {
   const response = await request.delete('https://backend.tallinn-learning.ee/test-orders/5', {
-    headers: apiHeaders
+    headers: apiHeaders,
   })
   const statusCode = response.status()
   expect(statusCode).toBe(204)
@@ -65,7 +65,7 @@ test('delete order with incorrect id should receive code 400', async ({ request 
 })
 test('delete order with incorrect api key should receive code 401', async ({ request }) => {
   const response = await request.delete('https://backend.tallinn-learning.ee/test-orders/5', {
-    headers: incorrectApiKey
+    headers: incorrectApiKey,
   })
   const statusCode = response.status()
   expect(statusCode).toBe(401)
@@ -73,7 +73,7 @@ test('delete order with incorrect api key should receive code 401', async ({ req
 test('put order with correct id and api key should receive code 200', async ({ request }) => {
   const response = await request.put('https://backend.tallinn-learning.ee/test-orders/1', {
     headers: apiHeaders,
-    data: requestBody
+    data: requestBody,
   })
   const statusCode = response.status()
   expect(statusCode).toBe(200)
