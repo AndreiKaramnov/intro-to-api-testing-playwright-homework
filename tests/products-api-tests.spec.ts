@@ -72,6 +72,10 @@ test.describe("Lesson 11 -> Product API tests", () => {
       headers: { 'X-API-Key': 'invalid-api-key' },
     })
     expect(searchResponse.status()).toBe(StatusCodes.UNAUTHORIZED)
+    const deleteResponse = await request.delete(`${BaseEndpointURL}/${createResponseBody.id}`, {
+      headers: AUTH,
+    })
+    expect(deleteResponse.status()).toBe(StatusCodes.NO_CONTENT)
   })
 
   test('POST /products; PUT /products/{id} - check product update', async ({
