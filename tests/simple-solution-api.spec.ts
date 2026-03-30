@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 import { StatusCodes } from 'http-status-codes'
-import {OrderDTO} from '../src/dto/OrderDTO'
+import { OrderDTO } from '../src/dto/OrderDTO'
 //--------------------------------------------CONSTANTS---------------------------------------------
 const apiHeaders = {
   api_key: '1234567890123456',

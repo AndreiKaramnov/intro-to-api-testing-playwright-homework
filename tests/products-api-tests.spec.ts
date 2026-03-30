@@ -4,11 +4,11 @@ import { StatusCodes } from 'http-status-codes'
 import { ProductDTO } from '../src/dto/ProductDTO'
 
 test.describe('Lesson 11 -> Product API tests', () => {
-  const BaseEndpointURL = 'https://backend.tallinn-learning.ee/products';
+  const BaseEndpointURL = 'https://backend.tallinn-learning.ee/products'
   const AUTH = { 'X-API-Key': 'my-secret-api-key' }
 
   const testProduct: ProductDTO = ProductDTO.generateDefault()
-  const testProduct2: ProductDTO = ProductDTO.generateCustom("fabric test", 1000)
+  const testProduct2: ProductDTO = ProductDTO.generateCustom('fabric test', 1000)
 
   test('GET /products - check API returns array with length >= 1', async ({ request }) => {
     const response = await request.get(BaseEndpointURL, {
