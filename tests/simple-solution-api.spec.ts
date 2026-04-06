@@ -128,7 +128,7 @@ test('courier assign order PUT and updates order status PUT', async ({ request }
   //2. создание курьера
   const courierData: CourierDTO = CourierDTO.generateValid()
   const createdCourier = await createCourier(request, studentToken, courierData)
-  // console.log(createdCourier)
+  console.log(createdCourier)
   //3. курьер логинится
   const courierToken = await getJwtCourier(request, courierData.login, courierData.password)
   // console.log(courierToken)
