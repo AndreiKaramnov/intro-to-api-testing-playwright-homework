@@ -9,7 +9,7 @@ import { CourierDTO } from '../src/dto/CourierDTO'
 const incorrectApiKey = {
   api_key: '123456789009876',
 }
-const ORDERS_URL = "https://backend.tallinn-learning.ee/orders"
+const ORDERS_URL = 'https://backend.tallinn-learning.ee/orders'
 const AUTH_URL = 'https://backend.tallinn-learning.ee/login/student'
 
 //---------------------------------------------TESTS------------------------------------------------
@@ -35,7 +35,7 @@ test('get order with correct id should receive code 200', async ({ request }) =>
 })
 test('get order with incorrect id should receive code 400', async ({ request }) => {
   const token = await getJwt(request)
-  console.log("token " + token)
+  console.log('token ' + token)
   const response = await request.get(`${ORDERS_URL}/1241242343223423432234423423234`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -119,7 +119,7 @@ test('delete unauthorized should receive code 401', async ({ request }) => {
   const errorBody = await response.text()
   const statusCode = response.status()
   // console.log('error body: ' + errorBody)
-  expect(errorBody).toBe("")
+  expect(errorBody).toBe('')
   expect(statusCode).toBe(401)
 })
 test('courier assign order PUT and updates order status PUT', async ({ request }) => {
@@ -130,10 +130,7 @@ test('courier assign order PUT and updates order status PUT', async ({ request }
   const createdCourier = await createCourier(request, studentToken, courierData)
   // console.log(createdCourier)
   //3. курьер логинится
-  const courierToken = await getJwtCourier(
-    request,
-    courierData.login,
-    courierData.password)
+  const courierToken = await getJwtCourier(request, courierData.login, courierData.password)
   // console.log(courierToken)
   //4. студент создает заказ
   const createOrderResponse = await request.post(ORDERS_URL, {
@@ -154,7 +151,7 @@ test('courier assign order PUT and updates order status PUT', async ({ request }
   })
   const assignedOrder: OrderDTO = await assignOrder.json()
   const parsedAssignedOrderResponse = OrderSchema.parse(assignedOrder)
-  expect (parsedAssignedOrderResponse.status).toBeDefined()
+  expect(parsedAssignedOrderResponse.status).toBeDefined()
   //6. курьер меняет статус заказа
   const updateResponse = await request.put(`${ORDERS_URL}/${createdOrder.id}/status`, {
     headers: {
@@ -175,11 +172,8 @@ test('should return 400 when assigning PUT order with invalid id', async ({ requ
   const studentToken = await getJwt(request)
   const courierData: CourierDTO = CourierDTO.generateValid()
   await createCourier(request, studentToken, courierData)
-  const courierToken = await getJwtCourier(
-    request,
-    courierData.login,
-    courierData.password)
-  const response = await request.put(`${ORDERS_URL}/${Number.MAX_SAFE_INTEGER*10000}/assign`, {
+  const courierToken = await getJwtCourier(request, courierData.login, courierData.password)
+  const response = await request.put(`${ORDERS_URL}/${Number.MAX_SAFE_INTEGER * 10000}/assign`, {
     headers: {
       Authorization: `Bearer ${courierToken}`,
     },
@@ -207,12 +201,12 @@ test('should return 401 when changing order status unauthorized', async ({ reque
 //старый вариант без хелперов
 test('post order with correct data should receive code 200', async ({ request }) => {
   const loginResponse = await request.post(AUTH_URL, {
-    data: LoginDTO.generateCorrectPair()
+    data: LoginDTO.generateCorrectPair(),
   })
   const token: Login = await loginResponse.text()
   const response = await request.post(ORDERS_URL, {
     headers: {
-      "Authorization": `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
     data: OrderDTO.generateDefault(),
   })
