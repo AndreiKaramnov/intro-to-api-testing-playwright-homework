@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 import { StatusCodes } from 'http-status-codes'
-import { ProductDTO } from '../src/dto/ProductDTO'
+import { ProductDTO, ProductSchema, Product } from '../src/dto/ProductDTO'
 
 test.describe('Lesson 11 -> Product API tests', () => {
   const BaseEndpointURL = 'https://backend.tallinn-learning.ee/products'
@@ -15,7 +15,9 @@ test.describe('Lesson 11 -> Product API tests', () => {
       headers: AUTH,
     })
 
-    const responseBody: ProductDTO[] = await response.json()
+    const responseBody: Product[] = await response.json()
+    const firstProduct: Product = ProductSchema.parse(responseBody[0])
+    expect(firstProduct.createdAt).toBeNull()
     expect(response.status()).toBe(StatusCodes.OK)
     expect(responseBody.length).toBeDefined()
     expect(responseBody.length).toBeGreaterThanOrEqual(1)
